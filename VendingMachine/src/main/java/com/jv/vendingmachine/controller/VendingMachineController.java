@@ -60,7 +60,7 @@ public class VendingMachineController {
         try {
             vendingMachineView.displayTransactionResults(vendingMachineService.getItemInInventory(itemSelection), userChange);
 
-        } catch (NoItemInventoryException e) {
+        } catch (IndexOutOfBoundsException | NullPointerException | NoItemInventoryException e) {
             vendingMachineView.displayErrorMessage("This item is not available, select another...");
         }
 

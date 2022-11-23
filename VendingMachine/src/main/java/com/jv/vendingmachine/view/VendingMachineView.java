@@ -13,12 +13,18 @@ import java.util.Map;
 
 public class VendingMachineView {
     private UserIOConsole userIOConsole;
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+
+
+
     public VendingMachineView(UserIOConsole userIOConsole) {
         this.userIOConsole = userIOConsole;
     }
 
     public void displayMenuBanner() {
-        userIOConsole.print("=== Vend.io: The Ferrari of Vending Machines === \n  \t\t <=== Vending Machine Menu ===>");
+        userIOConsole.print("===== Vend.io: The Ferrari of Vending Machines ===== \n  \t\t ----- Vending Machine Menu -----");
     }
 
     public void displayErrorMessage(String err) {
@@ -35,11 +41,15 @@ public class VendingMachineView {
         List<String> rowNames = new ArrayList<>(rowItems.keySet());
         List<Row> rowWithNameAndItem = new ArrayList<>(rowItems.values());
         for(int i = 0; i < rowItems.size(); i++) {
-            System.out.println("===== Row ID: " + rowNames.get(i) + " (Select Row ID + #) e.g \"" + rowNames.get(i) +  i +  "\" ====="); // Print current row letter identifier
+            userIOConsole.print(ANSI_WHITE + "===== Row ID: " + rowNames.get(i) + " (Select Row ID + #) e.g \"" + rowNames.get(i) +  i +  "\" ====="); // Print current row letter identifier
             Row currentRow = rowWithNameAndItem.get(i);
             for(int j = 0; j < currentRow.getRowItems().size(); j++) {
                 Item currentItem = currentRow.getRowItems().get(j);
-                userIOConsole.print("\t\t ID: #" + j +  " " + currentItem);
+                if(currentItem.getIsAvailable()) {
+                userIOConsole.print(ANSI_GREEN+ "||\t\t#" + j +"\t" +   " " + currentItem + "\t\t\t||");
+                } else {
+                    userIOConsole.print(ANSI_RED+ "||\t\t#" + j +"\t" +   " " + currentItem + "\t\t\t||");
+                }
             }
         }
     }

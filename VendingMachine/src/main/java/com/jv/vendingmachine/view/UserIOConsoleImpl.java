@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class UserIOConsoleImpl implements UserIOConsole {
-        final private Scanner console = new Scanner(System.in);
+        static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+
+    final private Scanner console = new Scanner(System.in);
 
         /**
          *
@@ -16,7 +19,7 @@ public class UserIOConsoleImpl implements UserIOConsole {
          */
         @Override
         public void print(String msg) {
-            System.out.println(msg);
+            System.out.println(ANSI_WHITE+ ANSI_BLACK_BACKGROUND + msg);
         }
 
         /**
@@ -29,7 +32,7 @@ public class UserIOConsoleImpl implements UserIOConsole {
          */
         @Override
         public String readString(String msgPrompt) {
-            System.out.println(msgPrompt);
+            System.out.println(ANSI_BLACK_BACKGROUND + ANSI_WHITE +  msgPrompt);
             return console.nextLine();
         }
 
