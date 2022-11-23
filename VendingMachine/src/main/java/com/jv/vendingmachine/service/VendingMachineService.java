@@ -16,7 +16,7 @@ public interface VendingMachineService {
 
 //    Item getItemInInventory(String selection, BigDecimal amount) throws NoItemInventoryException;
 
-    void decreaseInventoryItemCount(String selection) throws NoItemInventoryException;
+    void decreaseInventoryItemCount(String selection) throws NoItemInventoryException, VendingMachinePersistenceException;
 
     Map<String, Integer> processTransaction(BigDecimal customerMoney, String selection) throws NoItemInventoryException, InsufficientFundsException, VendingMachinePersistenceException;
 

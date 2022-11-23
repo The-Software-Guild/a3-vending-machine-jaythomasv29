@@ -37,12 +37,17 @@ public class VendingMachineServiceImpl implements VendingMachineService{
         return true;
     }
     @Override
-    public void decreaseInventoryItemCount(String selection) throws NoItemInventoryException {
+    public void decreaseInventoryItemCount(String selection) throws NoItemInventoryException, VendingMachinePersistenceException {
         Item foundProduct = vendingMachineDao.getItemInInventory(selection.charAt(0), selection.charAt(1));
-        // If product field isAvailable is false, -> throw exception
-        if(!foundProduct.getIsAvailable()) throw new NoItemInventoryException("Item not available");
+        if(foundProduct.getIsAvailable()) {
         // Otherwise: decrease foundProduct inventory by 1
         foundProduct.setInventory(foundProduct.getInventory() - 1);
+            //if an items removed, write to the audit log
+            vendingMachineAuditDao.writeAuditEntry(" One " + foundProduct.getName() + " removed");
+        } else {
+        // If product field isAvailable is false, -> throw exception
+            throw new NoItemInventoryException("Item not available");
+        }
         // Check if foundProduct's inventory has been decreased to 0, -> set it as "unavailable"
         if(foundProduct.getInventory() == 0) {
             foundProduct.setIsAvailable();

@@ -49,7 +49,7 @@ class VendingMachineServiceImplTest {
         try {
             vendingMachineService.decreaseInventoryItemCount("A0");
             fail("Exception should be thrown, A0 has inventory of 0");
-        } catch (NoItemInventoryException e) {
+        } catch (NoItemInventoryException | VendingMachinePersistenceException e) {
 
         }
     }
