@@ -1,0 +1,16 @@
+Sprite::1.50::0
+Sprite::1.50::5
+Sprite::1.50::5
+Sprite::1.50::5
+Sprite::1.50::5
+Coke::1.50::5
+Coke::1.50::5
+Coke::1.50::5
+Coke::1.50::5
+Coke::1.50::5
+Fanta::1.50::5
+Fanta::1.50::5
+Fanta::1.50::5
+Fanta::1.50::5
+Fanta::1.50::5
+Lemonade::1.50::5
