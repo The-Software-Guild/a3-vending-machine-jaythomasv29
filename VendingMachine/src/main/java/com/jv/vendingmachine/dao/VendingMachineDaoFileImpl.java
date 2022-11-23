@@ -5,6 +5,7 @@ import com.jv.vendingmachine.dto.Row;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.Consumer;
 
 public class VendingMachineDaoFileImpl implements VendingMachineDaoFile {
     public final String INVENTORY_FILE;
@@ -29,14 +30,15 @@ public class VendingMachineDaoFileImpl implements VendingMachineDaoFile {
 
     @Override
     public List<Item> getAllInventoryAsList() throws VendingMachinePersistenceException {
-
         List<Item> inventory = new ArrayList<>();
         List<Row> rows =  new ArrayList<>(vendingMachine.values());
         for (Row row : rows) {
             List<Item> currentRowItems = row.getRowItems();
-            for(Item item : currentRowItems) {
-                inventory.add(item);
-            }
+//            for(Item item : currentRowItems) {
+//                inventory.add(item);
+//            }
+            Consumer<Item> item = s -> { inventory.add(s); };
+            currentRowItems.stream().forEach(item);
         }
         return inventory;
     }
@@ -79,7 +81,6 @@ public class VendingMachineDaoFileImpl implements VendingMachineDaoFile {
     }
     @Override
     public void loadRoster() throws VendingMachinePersistenceException {
-        int asciiLetter = 65; // Initial Row Value
         List<Item> tempRowItemsList = new ArrayList<>();
         Scanner scanner;
 
@@ -90,27 +91,31 @@ public class VendingMachineDaoFileImpl implements VendingMachineDaoFile {
         }
         String currentLine;
         Item currentItem;
-        int rangeStart = 0;
-        int rangeEnd = 4;
+
         while(scanner.hasNextLine()) {
             currentLine = scanner.nextLine();
 
             // Put the items into a temp list
             currentItem = unmarshallItem(currentLine);
             tempRowItemsList.add(currentItem);
-
-            // when we reach a length of 3 in our tempRowItemsList
-            if(rangeStart == rangeEnd) {
-                Row currentRow = new Row(String.valueOf((char)asciiLetter));
-                currentRow.setRowItems(new ArrayList<>(tempRowItemsList.subList(rangeStart - 4, rangeEnd)));
-                vendingMachine.put(String.valueOf((char)asciiLetter), currentRow);
-                rangeEnd+=3;
-                asciiLetter++;
-            }
-            rangeStart++;
         }
         scanner.close();
+        // when we reach a length of 3 in our tempRowItemsList
+      loadRowsIntoMap(tempRowItemsList);
+    }
 
+    private void loadRowsIntoMap(List<Item> tempRowItemsList) {
+        int rangeEnd = 5;
+        int asciiLetter = 65; // Initial Row Value
+        for(int i = 0; i <= tempRowItemsList.size(); i++) {
+            if(i == rangeEnd) {
+                Row currentRow = new Row(String.valueOf((char)asciiLetter));
+                currentRow.setRowItems(new ArrayList<>(tempRowItemsList.subList(i - 5, rangeEnd)));
+                vendingMachine.put(String.valueOf((char)asciiLetter), currentRow);
+                rangeEnd+=5;
+                asciiLetter++;
+            }
+        }
     }
 
     private Item unmarshallItem(String itemAsText) {
