@@ -1,15 +1,11 @@
 package com.jv.vendingmachine.controller;
 
-import com.jv.vendingmachine.dao.VendingMachineDaoFile;
 import com.jv.vendingmachine.dao.VendingMachinePersistenceException;
-import com.jv.vendingmachine.dto.Item;
 import com.jv.vendingmachine.dto.Row;
 import com.jv.vendingmachine.service.InsufficientFundsException;
 import com.jv.vendingmachine.service.NoItemInventoryException;
 import com.jv.vendingmachine.service.VendingMachineService;
 import com.jv.vendingmachine.view.InvalidVendingMachineSelection;
-import com.jv.vendingmachine.view.UserIOConsole;
-import com.jv.vendingmachine.view.UserIOConsoleImpl;
 import com.jv.vendingmachine.view.VendingMachineView;
 
 import java.math.BigDecimal;
@@ -75,7 +71,7 @@ public class VendingMachineController {
      * rowItems: A HashMap<String, Row> - Basically a Row is like A, B, C, D and Row is ArrayList<Item> for column # int like 1, 2, 3
      */
     private void getVendingDisplayMenu() throws VendingMachinePersistenceException {
-        Map<String, Row> rowItems = vendingMachineService.getItemsInStockDetails();
+        Map<String, Row> rowItems = vendingMachineService.getRowItems();
         vendingMachineView.displayItemsInStock(rowItems);
     }
 }

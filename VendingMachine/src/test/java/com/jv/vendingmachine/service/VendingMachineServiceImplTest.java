@@ -23,7 +23,7 @@ class VendingMachineServiceImplTest {
     @Test
     public void getItemsInStockDetails() {
         try {
-            vendingMachineService.getItemsInStockDetails();
+            vendingMachineService.getRowItems();
         } catch (VendingMachinePersistenceException e) {
             fail("Couldn't get Rows with item in stock");
         }

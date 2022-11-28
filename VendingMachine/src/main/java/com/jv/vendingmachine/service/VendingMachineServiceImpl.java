@@ -20,12 +20,24 @@ public class VendingMachineServiceImpl implements VendingMachineService{
         this.vendingMachineAuditDao = vendingMachineAuditDao;
     }
 
+    /**
+     * A service method to get all Row objects from DAO as map with key:value pairs
+     * @return rowItems
+     * @throws VendingMachinePersistenceException
+     */
     @Override
-    public Map<String, Row> getItemsInStockDetails() throws VendingMachinePersistenceException {
+    public Map<String, Row> getRowItems() throws VendingMachinePersistenceException {
         Map<String, Row> rowItems = vendingMachineDao.getAllRowsAsMap();
         return rowItems;
     }
 
+    /**
+     * A checker method to validate if the user provided sufficient funds based on Item that was selected
+     * @param item
+     * @param inputMoney
+     * @return
+     * @throws InsufficientFundsException
+     */
     @Override
     public boolean checkIfEnoughMoney(Item item, BigDecimal inputMoney) throws InsufficientFundsException {
         //Checks if the user has input enough money to buy selected item
@@ -36,6 +48,13 @@ public class VendingMachineServiceImpl implements VendingMachineService{
         }
         return true;
     }
+
+    /**
+     * A method to properly decrement inventory stock and also throw exception if a user is selects an unavailable item
+     * @param selection
+     * @throws NoItemInventoryException
+     * @throws VendingMachinePersistenceException
+     */
     @Override
     public void decreaseInventoryItemCount(String selection) throws NoItemInventoryException, VendingMachinePersistenceException {
         Item foundProduct = vendingMachineDao.getItemInInventory(selection.charAt(0), selection.charAt(1));
@@ -79,6 +98,12 @@ public class VendingMachineServiceImpl implements VendingMachineService{
         return changeResults;
 
     }
+
+    /**
+     * A method to provide change for user in the highest available coin
+     * @param changeTotal
+     * @return
+     */
     @Override
     public Map<String, Integer> getChangePerCoin(BigDecimal changeTotal) {
         Map<String, Integer> changePerCoin = new HashMap<>();

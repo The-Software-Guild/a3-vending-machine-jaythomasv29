@@ -11,7 +11,6 @@ public class VendingMachineDaoFileImpl implements VendingMachineDaoFile {
     public final String INVENTORY_FILE;
     public static final String DELIMITER = "::";
     private Map<String, Row> vendingMachine = new HashMap<>();
-    // Get Item from Inventory (String row, int col)
 
     public VendingMachineDaoFileImpl() throws VendingMachinePersistenceException {
         INVENTORY_FILE = "inventory_file.txt";
@@ -28,6 +27,11 @@ public class VendingMachineDaoFileImpl implements VendingMachineDaoFile {
         return vendingMachine;
     }
 
+    /**
+     * A method to get all items within each Row object as an ArrayList
+     * @return inventory
+     * @throws VendingMachinePersistenceException
+     */
     @Override
     public List<Item> getAllInventoryAsList() throws VendingMachinePersistenceException {
         List<Item> inventory = new ArrayList<>();

@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 public interface VendingMachineService {
-    Map<String, Row> getItemsInStockDetails() throws VendingMachinePersistenceException;
+    Map<String, Row> getRowItems() throws VendingMachinePersistenceException;
 
     boolean checkIfEnoughMoney(Item item, BigDecimal inputMoney) throws InsufficientFundsException;
 
